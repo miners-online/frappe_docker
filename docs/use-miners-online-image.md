@@ -11,7 +11,7 @@
 ```shell
 docker build \
   --build-arg=APPS_JSON_BASE64=$APPS_JSON_BASE64 \
-  --tag=ghcr.io/miners-online/frappe_docker/miners_erp:0.1.0 \
+  --tag=ghcr.io/miners-online/frappe_docker/miners_erp:v0.1.0 \
   --file=images/custom/Containerfile .
 ```
 
