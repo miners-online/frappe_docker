@@ -67,25 +67,7 @@ services:
           fi
         done;
         echo "sites/common_site_config.json found";
-        bench new-site --no-mariadb-socket --admin-password=admin --db-root-password=admin --install-app erpnext --set-default frontend;
-
-  install-extras:
-    image: frappe/erpnext:v15.31.2
-    deploy:
-      restart_policy:
-        condition: none
-    depends_on:
-      - create-site
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      - logs:/home/frappe/frappe-bench/logs
-    entrypoint:
-      - bash
-      - -c
-    command:
-      - >
-        bench get-app hrms;
-        bench --site frontend install-app hrms;
+        bench new-site --no-mariadb-socket --admin-password=admin --db-root-password=admin --install-app erpnext --install-app hmrs --set-default frontend;
 
   db:
     image: mariadb:10.6
