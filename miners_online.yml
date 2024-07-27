@@ -2,7 +2,9 @@ version: "3"
 
 services:
   backend:
-    image: ghcr.io/miners-online/frappe_docker/miners_erp:v0.1.0
+    build:
+      context: .
+      dockerfile: images/custom/Containerfile
     depends_on:
       - create-site
     deploy:
@@ -13,7 +15,9 @@ services:
       - logs:/home/frappe/frappe-bench/logs
 
   configurator:
-    image: ghcr.io/miners-online/frappe_docker/miners_erp:0.1.0
+    build:
+      context: .
+      dockerfile: images/custom/Containerfile
     depends_on:
       - create-site
     deploy:
@@ -43,7 +47,9 @@ services:
       - logs:/home/frappe/frappe-bench/logs
 
   create-site:
-    image: ghcr.io/miners-online/frappe_docker/miners_erp:0.1.0
+    build:
+      context: .
+      dockerfile: images/custom/Containerfile
     deploy:
       restart_policy:
         condition: none
@@ -95,7 +101,9 @@ services:
       - db-data:/var/lib/mysql
 
   frontend:
-    image: ghcr.io/miners-online/frappe_docker/miners_erp:0.1.0
+    build:
+      context: .
+      dockerfile: images/custom/Containerfile
     depends_on:
       - websocket
       - create-site
@@ -120,7 +128,9 @@ services:
       - "8081:8080"
 
   queue-long:
-    image: ghcr.io/miners-online/frappe_docker/miners_erp:0.1.0
+    build:
+      context: .
+      dockerfile: images/custom/Containerfile
     depends_on:
       - create-site
     deploy:
@@ -136,7 +146,9 @@ services:
       - logs:/home/frappe/frappe-bench/logs
 
   queue-short:
-    image: ghcr.io/miners-online/frappe_docker/miners_erp:0.1.0
+    build:
+      context: .
+      dockerfile: images/custom/Containerfile
     depends_on:
       - create-site
     deploy:
@@ -170,7 +182,9 @@ services:
       - redis-cache-data:/data
 
   scheduler:
-    image: ghcr.io/miners-online/frappe_docker/miners_erp:0.1.0
+    build:
+      context: .
+      dockerfile: images/custom/Containerfile
     depends_on:
       - create-site
     deploy:
@@ -184,7 +198,9 @@ services:
       - logs:/home/frappe/frappe-bench/logs
 
   websocket:
-    image: ghcr.io/miners-online/frappe_docker/miners_erp:0.1.0
+    build:
+      context: .
+      dockerfile: images/custom/Containerfile
     depends_on:
       - create-site
     deploy:
