@@ -110,7 +110,7 @@ services:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
     ports:
-      - "8080:8080"
+      - "8081:8080"
 
   queue-long:
     image: frappe/erpnext:v15.31.1
@@ -182,7 +182,22 @@ services:
 
 volumes:
   db-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/frappe/db
+      o: bind
   redis-queue-data:
   redis-cache-data:
   sites:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/frappe/sites
+      o: bind
   logs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/frappe/logs
+      o: bind
