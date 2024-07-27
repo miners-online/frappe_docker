@@ -11,8 +11,6 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps
-      - py_env:/home/frappe/frappe-bench/env
 
   configurator:
     image: frappe/erpnext:v15.31.2
@@ -27,6 +25,7 @@ services:
     # add redis_socketio for backward compatibility
     command:
       - >
+       ls -1 apps > sites/apps.txt;
         bench set-config -g db_host $$DB_HOST;
         bench set-config -gp db_port $$DB_PORT;
         bench set-config -g redis_cache "redis://$$REDIS_CACHE";
@@ -42,8 +41,6 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps
-      - py_env:/home/frappe/frappe-bench/env
 
   create-site:
     image: frappe/erpnext:v15.31.2
@@ -53,8 +50,6 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps
-      - py_env:/home/frappe/frappe-bench/env
     entrypoint:
       - bash
       - -c
@@ -77,9 +72,6 @@ services:
         done;
         echo "sites/common_site_config.json found";
         bench new-site --no-mariadb-socket --admin-password=admin --db-root-password=admin --install-app erpnext --set-default frontend;
-        bench get-app hmrs https://github.com/frappe/hrms.git --branch version-15;
-        bench --site frontend install-app hrms;
-        ls -1 apps > sites/apps.txt;
 
   db:
     image: mariadb:10.6
@@ -124,8 +116,6 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps
-      - py_env:/home/frappe/frappe-bench/env
     ports:
       - "8081:8080"
 
@@ -144,8 +134,6 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps
-      - py_env:/home/frappe/frappe-bench/env
 
   queue-short:
     image: frappe/erpnext:v15.31.2
@@ -162,8 +150,6 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps
-      - py_env:/home/frappe/frappe-bench/env
 
   redis-queue:
     image: redis:6.2-alpine
@@ -196,8 +182,6 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps
-      - py_env:/home/frappe/frappe-bench/env
 
   websocket:
     image: frappe/erpnext:v15.31.2
@@ -212,8 +196,6 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps
-      - py_env:/home/frappe/frappe-bench/env
 
 volumes:
   db-data:
@@ -224,18 +206,6 @@ volumes:
       o: bind
   redis-queue-data:
   redis-cache-data:
-  apps:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/frappe/apps
-      o: bind
-  py_env:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/frappe/py_env
-      o: bind
   sites:
     driver: local
     driver_opts:
