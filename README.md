@@ -1,7 +1,6 @@
-[![Build Stable](https://github.com/frappe/frappe_docker/actions/workflows/build_stable.yml/badge.svg)](https://github.com/frappe/frappe_docker/actions/workflows/build_stable.yml)
-[![Build Develop](https://github.com/frappe/frappe_docker/actions/workflows/build_develop.yml/badge.svg)](https://github.com/frappe/frappe_docker/actions/workflows/build_develop.yml)
 
-Everything about [Frappe](https://github.com/frappe/frappe) and [ERPNext](https://github.com/frappe/erpnext) in containers.
+
+Miners Online configuations for everything about [Frappe](https://github.com/frappe/frappe) and [ERPNext](https://github.com/frappe/erpnext) in containers.
 
 # Getting Started
 
@@ -13,52 +12,23 @@ Once completed, chose one of the following two sections for next steps.
 
 To play in an already set up sandbox, in your browser, click the button below:
 
-<a href="https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/frappe/frappe_docker/main/pwd.yml">
+<a href="https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/miners-online/frappe_docker/main/miners_online.yml">
   <img src="https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png" alt="Try in PWD"/>
 </a>
-
-### Try on your Dev environment
-
-First clone the repo:
-
-```sh
-git clone https://github.com/frappe/frappe_docker
-cd frappe_docker
-```
-
-Then run: `docker compose -f pwd.yml up -d`
-
-## Final steps
-
-Wait for 5 minutes for ERPNext site to be created or check `create-site` container logs before opening browser on port 8080. (username: `Administrator`, password: `admin`)
-
-If you ran in a Dev Docker environment, to view container logs: `docker compose -f pwd.yml -d`. Don't worry about some of the initial error messages, some services take a while to become ready, and then they go away.
 
 # Documentation
 
 ### [Production](#production)
 
+- [Use Miners Online Image](docs/use-miners-online-image.md)
 - [List of containers](docs/list-of-containers.md)
-- [Single Compose Setup](docs/single-compose-setup.md)
 - [Environment Variables](docs/environment-variables.md)
-- [Single Server Example](docs/single-server-example.md)
 - [Setup Options](docs/setup-options.md)
 - [Site Operations](docs/site-operations.md)
 - [Backup and Push Cron Job](docs/backup-and-push-cronjob.md)
 - [Port Based Multi Tenancy](docs/port-based-multi-tenancy.md)
 - [Migrate from multi-image setup](docs/migrate-from-multi-image-setup.md)
-- [running on linux/mac](docs/setup_for_linux_mac.md)
 
-### [Custom Images](#custom-images)
-
-- [Custom Apps](docs/custom-apps.md)
-- [Build Version 10 Images](docs/build-version-10-images.md)
-
-### [Development](#development)
-
-- [Development using containers](docs/development.md)
-- [Bench Console and VSCode Debugger](docs/bench-console-and-vscode-debugger.md)
-- [Connect to localhost services](docs/connect-to-localhost-services-from-containers-for-local-app-development.md)
 
 ### [Troubleshoot](docs/troubleshoot.md)
 
