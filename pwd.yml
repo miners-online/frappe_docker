@@ -68,8 +68,8 @@ services:
         done;
         echo "sites/common_site_config.json found";
         bench new-site --no-mariadb-socket --admin-password=admin --db-root-password=admin --install-app erpnext --set-default frontend;
-        bench --site frontend uninstall-app hmrs;
-        bench --site frontend install-app hmrs;
+        bench get-app hmrs https://github.com/frappe/hrms.git --branch version-15;
+        bench --site frontend install-app hrms;
 
   db:
     image: mariadb:10.6
