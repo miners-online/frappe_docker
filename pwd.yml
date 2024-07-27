@@ -3,6 +3,8 @@ version: "3"
 services:
   backend:
     image: frappe/erpnext:v15.31.2
+    depends_on:
+      - create-site
     deploy:
       restart_policy:
         condition: on-failure
@@ -14,6 +16,8 @@ services:
 
   configurator:
     image: frappe/erpnext:v15.31.2
+    depends_on:
+      - create-site
     deploy:
       restart_policy:
         condition: none
@@ -23,7 +27,6 @@ services:
     # add redis_socketio for backward compatibility
     command:
       - >
-        ls -1 apps > sites/apps.txt;
         bench set-config -g db_host $$DB_HOST;
         bench set-config -gp db_port $$DB_PORT;
         bench set-config -g redis_cache "redis://$$REDIS_CACHE";
@@ -76,9 +79,12 @@ services:
         bench new-site --no-mariadb-socket --admin-password=admin --db-root-password=admin --install-app erpnext --set-default frontend;
         bench get-app hmrs https://github.com/frappe/hrms.git --branch version-15;
         bench --site frontend install-app hrms;
+        ls -1 apps > sites/apps.txt;
 
   db:
     image: mariadb:10.6
+    depends_on:
+      - create-site
     healthcheck:
       test: mysqladmin ping -h localhost --password=admin
       interval: 1s
@@ -100,6 +106,7 @@ services:
     image: frappe/erpnext:v15.31.2
     depends_on:
       - websocket
+      - create-site
     deploy:
       restart_policy:
         condition: on-failure
@@ -124,6 +131,8 @@ services:
 
   queue-long:
     image: frappe/erpnext:v15.31.2
+    depends_on:
+      - create-site
     deploy:
       restart_policy:
         condition: on-failure
@@ -140,6 +149,8 @@ services:
 
   queue-short:
     image: frappe/erpnext:v15.31.2
+    depends_on:
+      - create-site
     deploy:
       restart_policy:
         condition: on-failure
@@ -156,6 +167,8 @@ services:
 
   redis-queue:
     image: redis:6.2-alpine
+    depends_on:
+      - create-site
     deploy:
       restart_policy:
         condition: on-failure
@@ -172,6 +185,8 @@ services:
 
   scheduler:
     image: frappe/erpnext:v15.31.2
+    depends_on:
+      - create-site
     deploy:
       restart_policy:
         condition: on-failure
@@ -186,6 +201,8 @@ services:
 
   websocket:
     image: frappe/erpnext:v15.31.2
+    depends_on:
+      - create-site
     deploy:
       restart_policy:
         condition: on-failure
@@ -208,7 +225,17 @@ volumes:
   redis-queue-data:
   redis-cache-data:
   apps:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/frappe/apps
+      o: bind
   py_env:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/frappe/py_env
+      o: bind
   sites:
     driver: local
     driver_opts:
