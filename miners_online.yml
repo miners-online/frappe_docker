@@ -4,7 +4,9 @@ services:
   backend:
     build:
       context: .
-      dockerfile: images/custom/Containerfile
+      dockerfile: images/miners_online/Containerfile
+      args:
+        APPS_JSON: "${APPS_JSON}"
     image: miners_erp
     depends_on:
       - create-site
