@@ -110,10 +110,10 @@ USER frappe
 
 RUN export APP_INSTALL_ARGS="" && \
   cd /home/frappe/frappe-bench && \
-  bench get-app erpnext https://github.com/frappe/erpnext --branch version-15 \
-  bench get-app hrms https://github.com/frappe/hrms --branch version-15 \
-  bench get-app payments https://github.com/frappe/payments --branch version-15 \
-  bench install-app erpnext hrms payments \
+  bench get-app erpnext https://github.com/frappe/erpnext --branch version-15 && \
+  bench get-app hrms https://github.com/frappe/hrms --branch version-15 && \
+  bench get-app payments https://github.com/frappe/payments --branch version-15 && \
+  bench install-app erpnext hrms payments
 
 FROM base AS backend
 
