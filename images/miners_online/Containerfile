@@ -106,14 +106,20 @@ RUN apt-get update \
 
 USER frappe
 
-# Install apps
+# Init bench
+
+ARG FRAPPE_BRANCH=version-15
+ARG FRAPPE_PATH=https://github.com/frappe/frappe
 
 RUN export APP_INSTALL_ARGS="" && \
-  cd /home/frappe/frappe-bench && \
-  bench get-app erpnext https://github.com/frappe/erpnext --branch version-15 && \
-  bench get-app hrms https://github.com/frappe/hrms --branch version-15 && \
-  bench get-app payments https://github.com/frappe/payments --branch version-15 && \
-  bench install-app erpnext hrms payments
+  bench init ${APP_INSTALL_ARGS}\
+    --frappe-branch=${FRAPPE_BRANCH} \
+    --frappe-path=${FRAPPE_PATH} \
+    --no-procfile \
+    --no-backups \
+    --skip-redis-config-generation \
+    --verbose \
+    /home/frappe/frappe-bench
 
 FROM base AS backend
 
@@ -128,6 +134,14 @@ VOLUME [ \
   "/home/frappe/frappe-bench/sites/assets", \
   "/home/frappe/frappe-bench/logs" \
 ]
+
+# Download apps
+
+RUN export APP_INSTALL_ARGS="" && \
+  cd /home/frappe/frappe-bench && \
+  bench get-app erpnext https://github.com/frappe/erpnext --branch version-15 && \
+  bench get-app hrms https://github.com/frappe/hrms --branch version-15 && \
+  bench get-app payments https://github.com/frappe/payments --branch version-15
 
 CMD [ \
   "/home/frappe/frappe-bench/env/bin/gunicorn", \
